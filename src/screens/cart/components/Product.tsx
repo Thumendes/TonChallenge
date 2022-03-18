@@ -1,6 +1,17 @@
 import { useCart } from "@contexts/cart";
 import { ProductType } from "@data/product";
-import { Box, Button, Center, Flex, HStack, Image, Text } from "native-base";
+import { Feather } from "@expo/vector-icons";
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  HStack,
+  IconButton,
+  Image,
+  Text,
+  VStack,
+} from "native-base";
 import React from "react";
 
 interface ProductProps {
@@ -11,16 +22,31 @@ const Product: React.FC<ProductProps> = ({ item }) => {
   const { products, addProduct, removeProduct } = useCart();
 
   function renderButton() {
-    const alreadyInCart = products.find((product) => product.id === item.id);
+    const product = products.find((product) => product.id === item.id);
 
-    const [color, text, action] = alreadyInCart
-      ? ["red", "Remover", removeProduct]
-      : ["green", "Adicionar", addProduct];
+    if (!product) return <></>;
+
+    const count = `${product.count}x`;
 
     return (
-      <Button colorScheme={color} size="sm" onPress={() => action(item)}>
-        {text}
-      </Button>
+      <Center>
+        <Text fontWeight="bold" mb={2}>
+          {count}
+        </Text>
+
+        <Button.Group isAttached size="sm">
+          <IconButton
+            variant="solid"
+            _icon={{ as: Feather, name: "minus", size: 5 }}
+            onPress={() => removeProduct(item)}
+          />
+          <IconButton
+            variant="solid"
+            _icon={{ as: Feather, name: "plus", size: 5 }}
+            onPress={() => addProduct(item)}
+          />
+        </Button.Group>
+      </Center>
     );
   }
 

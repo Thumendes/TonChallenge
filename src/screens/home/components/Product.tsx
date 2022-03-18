@@ -1,7 +1,15 @@
 import { useCart } from "@contexts/cart";
 import { ProductType } from "@data/product";
 import { Feather } from "@expo/vector-icons";
-import { Box, Button, IconButton, Image, Text, VStack } from "native-base";
+import {
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Image,
+  Text,
+  VStack,
+} from "native-base";
 import React from "react";
 
 interface ProductProps {
@@ -9,21 +17,7 @@ interface ProductProps {
 }
 
 const Product: React.FC<ProductProps> = ({ item }) => {
-  const { products, addProduct, removeProduct } = useCart();
-
-  function renderButton() {
-    const alreadyInCart = products.find((product) => product.id === item.id);
-
-    const [color, text, action] = alreadyInCart
-      ? ["red", "Remover", removeProduct]
-      : ["green", "Adicionar", addProduct];
-
-    return (
-      <Button colorScheme={color} size="sm" onPress={() => action(item)}>
-        {text}
-      </Button>
-    );
-  }
+  const { addProduct } = useCart();
 
   return (
     <Box h="full">
@@ -34,14 +28,30 @@ const Product: React.FC<ProductProps> = ({ item }) => {
       <Box p={2} bg="gray.200" roundedBottom="lg">
         <VStack>
           <Text isTruncated>{item.title}</Text>
-          <Text fontSize={16} fontWeight="bold">
-            {item.price.toLocaleString("pt-br", {
-              currency: "BRL",
-              style: "currency",
-            })}
-          </Text>
 
-          {renderButton()}
+          <Flex
+            alignItems="center"
+            direction="row"
+            justifyContent="space-between"
+          >
+            <Text fontSize={20} fontWeight="bold">
+              {item.price.toLocaleString("pt-br", {
+                currency: "BRL",
+                style: "currency",
+              })}
+            </Text>
+
+            <IconButton
+              colorScheme="gray"
+              variant="outline"
+              onPress={() => addProduct(item)}
+              _icon={{
+                as: Feather,
+                name: "shopping-cart",
+                size: 5,
+              }}
+            />
+          </Flex>
         </VStack>
       </Box>
     </Box>

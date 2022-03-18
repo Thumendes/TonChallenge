@@ -9,11 +9,11 @@ interface CartButtonProps {}
 
 const CartButton: React.FC<CartButtonProps> = ({}) => {
   const { navigate } = useNavigation<NavigationProp<StackParamList>>();
-  const { products } = useCart();
+  const { count } = useCart();
 
   return (
     <>
-      {products.length > 0 && (
+      {count > 0 && (
         <Badge
           position="absolute"
           colorScheme="danger"
@@ -24,7 +24,7 @@ const CartButton: React.FC<CartButtonProps> = ({}) => {
           top={-4}
           right={-4}
         >
-          {products.length}
+          {count}
         </Badge>
       )}
       <IconButton
