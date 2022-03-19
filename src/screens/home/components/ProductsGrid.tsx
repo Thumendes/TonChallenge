@@ -5,12 +5,20 @@ import React from "react";
 
 interface GridProps {
   products: ProductType[];
+  onRefresh: () => void;
+  isLoading: boolean;
 }
 
-const ProductsGrid: React.FC<GridProps> = ({ products }) => {
+const ProductsGrid: React.FC<GridProps> = ({
+  isLoading,
+  onRefresh,
+  products,
+}) => {
   return (
     <Box w="full">
       <FlatList
+        onRefresh={onRefresh}
+        refreshing={isLoading}
         keyExtractor={(item) => String(item.id)}
         numColumns={2}
         data={products}

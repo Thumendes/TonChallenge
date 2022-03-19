@@ -10,6 +10,7 @@ const ProductsList: React.FC<ProductsListProps> = ({}) => {
 
   return (
     <FlatList
+    maxH="1/2"
       keyExtractor={(item) => String(item.id)}
       data={products}
       renderItem={({ item }) => (

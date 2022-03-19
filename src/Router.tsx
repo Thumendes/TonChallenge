@@ -3,14 +3,13 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import CartScreen from "@screens/cart";
-import HomeScreen from "@screens/home";
 import { StackParamList } from "@data/router";
-import { Button, IconButton, Text } from "native-base";
-
-import { Feather } from "@expo/vector-icons";
 import CartButton from "@components/cartButton";
 import CartContextProvider from "@contexts/cart";
+
+import CartScreen from "@screens/cart";
+import HomeScreen from "@screens/home";
+import ProductScreen from "@screens/product";
 
 interface RouterProps {}
 
@@ -33,6 +32,11 @@ const Router: React.FC<RouterProps> = ({}) => {
             name="Cart"
             component={CartScreen}
             options={{ headerTitle: "Carrinho" }}
+          />
+          <Stack.Screen
+            name="Product"
+            component={ProductScreen}
+            options={{ headerTitle: "Produtos" }}
           />
         </Stack.Navigator>
       </NavigationContainer>

@@ -1,12 +1,16 @@
 import { useCart } from "@contexts/cart";
 import { ProductType } from "@data/product";
+import { StackParamList } from "@data/router";
 import { Feather } from "@expo/vector-icons";
+import { useUtils } from "@hooks/useUtils";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import {
   Box,
   Button,
   Flex,
   IconButton,
   Image,
+  Pressable,
   Text,
   VStack,
 } from "native-base";
@@ -18,9 +22,11 @@ interface ProductProps {
 
 const Product: React.FC<ProductProps> = ({ item }) => {
   const { addProduct } = useCart();
+  const { parseCurrency } = useUtils();
+  const { navigate } = useNavigation<NavigationProp<StackParamList>>();
 
   return (
-    <Box h="full">
+    <Pressable onPress={() => navigate("Product", { product: item })} h="full">
       <Box bg="white" px={2} roundedTop="lg">
         <Image h={150} source={{ uri: item.image }} alt={item.title} />
       </Box>
@@ -35,10 +41,7 @@ const Product: React.FC<ProductProps> = ({ item }) => {
             justifyContent="space-between"
           >
             <Text fontSize={20} fontWeight="bold">
-              {item.price.toLocaleString("pt-br", {
-                currency: "BRL",
-                style: "currency",
-              })}
+              {parseCurrency(item.price)}
             </Text>
 
             <IconButton
@@ -54,7 +57,7 @@ const Product: React.FC<ProductProps> = ({ item }) => {
           </Flex>
         </VStack>
       </Box>
-    </Box>
+    </Pressable>
   );
 };
 

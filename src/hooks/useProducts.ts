@@ -24,14 +24,21 @@ export function useProducts(id?: number) {
     return product;
   }
 
-  useEffect(() => {
+  function load() {
     setLoading(true);
     setError(null);
 
     const promise = id ? loadProduct(id) : loadProducts();
 
-    promise.catch(setError).finally(() => setLoading(false));
-  }, []);
+    promise
+      .catch((e) => {
+        console.log(e);
+        setError(e.message);
+      })
+      .finally(() => setLoading(false));
+  }
 
-  return { products, product, loading, error };
+  useEffect(load, []);
+
+  return { products, product, loading, load, error };
 }
